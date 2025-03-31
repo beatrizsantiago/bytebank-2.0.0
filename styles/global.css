@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  box-sizing: border-box
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body, input, button {
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #E4EDE3;
+}
