@@ -1,6 +1,6 @@
 'use client';
 
-import NavigationMenu from './NavigationMenu';
+import NavigationMenu from '@components/NavigationMenu';
 
 const InlineMenu = () => (
   <div className="hidden md:flex justify-center lg:hidden w-full">

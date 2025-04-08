@@ -1,6 +1,6 @@
 'use client';
 
-import NavigationMenu from './NavigationMenu';
+import NavigationMenu from '@components/NavigationMenu';
 
 const Sidebar = () => (
   <div className="hidden w-[180px] min-h-[calc(100vh-144px)] bg-white rounded-lg p-6 lg:block">

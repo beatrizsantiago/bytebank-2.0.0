@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Input, Select, Button } from 'money-flow';
 import { toast } from 'react-toastify';
+import { TransactionService, TransactionData, KindType } from '@services/transactions';
 import Image from 'next/image';
-
-import { TransactionService, TransactionData, KindType } from '../../services/transactions';
 
 type OptionType = {
   label: string;

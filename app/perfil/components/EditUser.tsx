@@ -3,9 +3,8 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Button } from 'money-flow';
-
-import LocalStorageService from '../../services/localStorage';
-import { UserService, UserData } from '../../services/user';
+import { UserService, UserData } from '@services/user';
+import LocalStorageService from '@services/localStorage';
 
 const EditUser = () => {
   const localStorageService = new LocalStorageService();

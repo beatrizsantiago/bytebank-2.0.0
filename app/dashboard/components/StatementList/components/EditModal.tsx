@@ -3,14 +3,13 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Select, Button } from 'money-flow';
-
 import {
   KindType,
   TransactionData,
   TransactionService,
   ITransactionData,
-} from '../../../../services/transactions';
-import Modal from '../../../Modal';
+} from '@services/transactions';
+import Modal from '@components/Modal';
 
 type Props = {
   onClose: () => void;

@@ -1,11 +1,12 @@
 'use client';
 
-import Header from '../../components/Header';
-import InlineMenu from '../../components/InlineMenu';
-import Sidebar from '../../components/Sidebar';
-import Jumbotron from '../../components/dashboard/Jumbotron';
-import StatementList from '../../components/dashboard/StatementList';
-import NewTransaction from '../../components/dashboard/NewTransaction';
+import Header from '@components/Header';
+import InlineMenu from '@components/InlineMenu';
+import Sidebar from '@components/Sidebar';
+
+import Jumbotron from './components/Jumbotron';
+import StatementList from './components/StatementList';
+import NewTransaction from './components/NewTransaction';
 
 export default function Dashboard() {
   return (

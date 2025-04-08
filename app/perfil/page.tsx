@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
+import Header from '@components/Header';
+import InlineMenu from '@components/InlineMenu';
+import Sidebar from '@components/Sidebar';
 
-import Header from '../../components/Header';
-import InlineMenu from '../../components/InlineMenu';
-import Sidebar from '../../components/Sidebar';
-import EditUser from '../../components/perfil/EditUser';
+import EditUser from './components/EditUser';
 
 export default function Dashboard() {
   return (

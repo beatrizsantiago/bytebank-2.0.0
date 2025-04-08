@@ -4,11 +4,10 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Button } from 'money-flow';
 import { useRouter } from 'next/navigation';
+import { AuthenticationService } from '@services/authentication';
 import Image from 'next/image';
-
-import { AuthenticationService } from '../../../services/authentication';
-import LocalStorageService from '../../../services/localStorage';
-import Modal from '../../Modal';
+import LocalStorageService from '@services/localStorage';
+import Modal from '@components/Modal';
 
 type Props = {
   onClose: () => void;

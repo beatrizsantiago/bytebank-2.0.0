@@ -4,12 +4,11 @@ import { useState } from 'react';
 import { EyeFilled, EyeInvisibleFilled, LoadingOutlined } from '@ant-design/icons';
 import { formatDate } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { DashboardService } from '@services/dashboard';
+import { money } from '@utils/formats';
 import Image from 'next/image';
 import useSWR from 'swr';
-
-import { DashboardService } from '../../services/dashboard';
-import { money } from '../../utils/formats';
-import LocalStorageService from '../../services/localStorage';
+import LocalStorageService from '@services/localStorage';
 
 const Jumbotron = () => {
   const dashboardService = new DashboardService();

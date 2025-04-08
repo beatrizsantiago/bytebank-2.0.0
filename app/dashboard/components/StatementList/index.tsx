@@ -1,9 +1,9 @@
 'use client';
 
 import { LoadingOutlined } from '@ant-design/icons';
+import { TransactionService } from '@services/transactions'
 import useSWR from 'swr';
 
-import { TransactionService } from '../../../services/transactions'
 import Item from './components/Item';
 
 const StatementList = () => {

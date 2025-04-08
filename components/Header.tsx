@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CloseOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { Menu } from 'money-flow';
+import LocalStorageService from '@services/localStorage';
+import NavigationMenu from '@components/NavigationMenu';
 
-import NavigationMenu from './NavigationMenu';
-import LocalStorageService from '../services/localStorage';
 
 const Header = () => {
   const router = useRouter();
