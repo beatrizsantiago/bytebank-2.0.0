@@ -1,4 +1,5 @@
 type UserParams = {
+  id: string;
   name: string;
   password: string;
 }
