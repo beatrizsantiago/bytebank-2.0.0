@@ -1,4 +1,4 @@
-import { KindType } from '../../types/TransactionKinds';
+import { KindType } from '../../types/transactionKinds';
 
 type AddTransactionParams = {
   kind: KindType;

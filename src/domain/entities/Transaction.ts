@@ -1,4 +1,4 @@
-import { KindType } from '../../types/TransactionKinds';
+import { KindType } from '../../types/transactionKinds';
 
 class Transaction {
   _id: string;
