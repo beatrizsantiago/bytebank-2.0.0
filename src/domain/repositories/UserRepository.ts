@@ -1,9 +1,5 @@
-type UserParams = {
-  id: string;
-  name: string;
-  password: string;
-}
+import { UpdateUserParams } from "@generalTypes/user";
 
 export interface UserRepository {
-  update(params: UserParams): Promise<string>;
+  update(params: UpdateUserParams): Promise<string>;
 };

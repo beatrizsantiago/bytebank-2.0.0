@@ -3,5 +3,5 @@ type DashboardData = {
 };
 
 export interface DashboardRepository {
-  getDashboardData(): Promise<DashboardData>;
+  getData(): Promise<DashboardData>;
 };

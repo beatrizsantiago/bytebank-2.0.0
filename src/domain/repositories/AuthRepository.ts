@@ -1,14 +1,4 @@
-type LoginParams = {
-  email: string;
-  password: string;
-}
-
-type RegisterParams = {
-  name: string;
-  email: string;
-  password: string;
-}
-
+import { LoginParams, RegisterParams } from "@generalTypes/auth";
 export interface AuthRepository {
   login(data: LoginParams): Promise<string>;
   register(data: RegisterParams): Promise<string>;

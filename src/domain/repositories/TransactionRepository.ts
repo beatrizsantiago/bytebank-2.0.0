@@ -1,14 +1,6 @@
-import { KindType } from '../../types/transactionKinds';
-
-type AddTransactionParams = {
-  kind: KindType;
-  value: number;
-};
-
-type UpdateTransactionParams = {
-  kind: KindType;
-  value: number;
-};
+import {
+  AddTransactionParams, KindType, UpdateTransactionParams,
+} from '@generalTypes/transaction';
 
 type Transaction = {
   _id: string;
