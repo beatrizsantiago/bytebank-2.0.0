@@ -25,10 +25,10 @@
       "@components/*": ["./src/components/*"],
       "@utils/*": ["./src/utils/*"],
       "@styles/*": ["./src/styles/*"],
-      "@services/*": ["./src/services/*"],
+      "@generalTypes/*": ["./src/types/*"],
       "@domain/*": ["./src/domain/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
-      "@generalTypes/*": ["./src/types/*"],
+      "@usecases/*": ["./src/usecases/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
