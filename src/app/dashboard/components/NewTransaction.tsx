@@ -43,7 +43,7 @@ const NewTransaction = ():JSX.Element => {
     const formattedValue = absValue * (kind === 'DEPOSIT' ? 1 : -1);
 
     try {
-      await addTransaction(
+      const response = await addTransaction(
         {
           kind,
           value: formattedValue
@@ -56,8 +56,8 @@ const NewTransaction = ():JSX.Element => {
         transaction: {
           kind,
           value: formattedValue,
-          _id: '',
-          date: '',
+          _id: response._id,
+          date: response.date,
         },
       });
 

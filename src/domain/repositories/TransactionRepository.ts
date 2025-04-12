@@ -9,7 +9,7 @@ type TransactionList = {
 };
 
 export interface TransactionRepository {
-  add(data: AddTransactionParams): Promise<void>;
+  add(data: AddTransactionParams): Promise<TransactionType>;
   list(page?: number, limit?: number): Promise<TransactionList>;
   update(id: string, data: UpdateTransactionParams): Promise<void>;
   delete(id: string): Promise<void>;
