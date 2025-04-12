@@ -5,70 +5,78 @@ import { toast } from 'react-toastify';
 import { Input, Select, Button } from 'money-flow';
 import { updateTransaction } from '@usecases/transaction/updateTransaction';
 import { transactionApi } from '@infrastructure/api/transactionApi';
-import { KindType, TransactionType } from '@generalTypes/transaction';
+import { KindType, TransactionOptionType, TransactionType } from '@generalTypes/transaction';
+import { currencyToFloat, floatToCurrency, formatCurrency } from '@utils/currencyFormats';
+import { Errors } from '@generalTypes/global';
+import { TRANSACTION_LABELS, TRANSACTION_OPTIONS } from '@utils/transactionOptions';
 import Modal from '@components/Modal';
 import ErrorLabel from '@components/ErrorLabel';
+
+import { useDashboardContext } from '../../../context';
 
 type Props = {
   onClose: () => void;
   transaction: TransactionType;
 };
 
-type OptionType = {
-  label: string;
-  value: string;
-};
-
-const LABELS:{[key:string]:string} = {
-  CURRENCY_EXCHANGE: 'Câmbio de Moeda',
-  DOC_TED: 'DOC/TED',
-  LEASING: 'Empréstimo e Financiamento',
-  DEPOSIT: 'Depósito',
-};
-
-const OPTIONS = Object.keys(LABELS).map((key) => ({ label: LABELS[key], value: key }));
-
 const EditTransactionModal = ({ onClose, transaction }:Props) => {
-  const [kind, setKind] = useState<OptionType | null>({
-    label: LABELS[transaction.kind],
+  const { state, dispatch } = useDashboardContext();
+
+  const [selectedKind, setSelectedKind] = useState<TransactionOptionType | null>({
+    label: TRANSACTION_LABELS[transaction.kind],
     value: transaction.kind,
   })
-  const [value, setValue] = useState((transaction.value * -1).toString());
-  const [errors, setErrors] = useState<{ [key:string]: string } | null>(null)
+  const [value, setValue] = useState(floatToCurrency(transaction.value));
+  const [errors, setErrors] = useState<Errors>(null)
 
   const onEditClick = async () => {
-    const floatValue = value ? parseFloat(value.replace(',', '.')) : 0;
-
-    if (!kind) {
+    if (!selectedKind) {
       setErrors({ kind: 'Selecione o tipo de transação' });
       return;
     };
+    
+    const kind = selectedKind.value as KindType;
+    const absValue = Math.abs(currencyToFloat(value));
 
-    if (floatValue <= 0) {
+    if (absValue === 0) {
       setErrors({ value: 'O valor da transação deve ser maior que zero' });
       return;
     };
 
     setErrors(null);
 
+    if (absValue > state.balance && kind !== 'DEPOSIT') {
+      toast.error('Saldo insuficiente para realizar essa transação!');
+      return;
+    };
+
+    const formattedValue = absValue * (kind === 'DEPOSIT' ? 1 : -1);
+
     try {
       await updateTransaction(
         transaction._id,
-        { kind: kind.value as KindType, value: floatValue },
+        {
+          kind,
+          value: formattedValue,
+        },
         transactionApi,
       );
-      window.location.reload();
 
-      setKind(null);
+      dispatch({
+        type: 'UPDATE_TRANSACTION',
+        transaction: {
+          ...transaction,
+          kind,
+          value: formattedValue,
+        },
+      });
+
+      setSelectedKind(null);
       setValue('');
 
       onClose();
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error('Erro ao realizar transação');
-      }
+    } catch {
+      toast.error('Erro ao realizar transação');
     };
   };
 
@@ -83,9 +91,9 @@ const EditTransactionModal = ({ onClose, transaction }:Props) => {
           <div className="mb-6">
             <Select
               placeholder="Selecione o tipo de transação"
-              options={OPTIONS}
-              selected={kind}
-              onChange={(opt) => setKind(opt)}
+              options={TRANSACTION_OPTIONS}
+              selected={selectedKind}
+              onChange={(opt) => setSelectedKind(opt)}
             />
             {errors?.kind && (
               <ErrorLabel error={errors.kind} />
@@ -99,7 +107,7 @@ const EditTransactionModal = ({ onClose, transaction }:Props) => {
             <Input
               placeholder="0,00"
               value={value}
-              onChange={(e) => setValue(e.target.value)}
+              onChange={(e) => setValue(formatCurrency(e.target.value))}
               error={!!errors?.value}
               className="w-full"
               type="number"
