@@ -5,7 +5,7 @@ import { addTransaction } from '@usecases/transaction/addTransaction';
 import { transactionApi } from '@infrastructure/api/transactionApi';
 import { KindType, TransactionOptionType } from '@generalTypes/transaction';
 import { Errors } from '@generalTypes/global';
-import { currencyToFloat, formatCurrency } from '@utils/currencyFormats';
+import { currencyToFloat } from '@utils/currencyFormats';
 import { TRANSACTION_OPTIONS } from '@utils/transactionOptions';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -120,7 +120,7 @@ const NewTransaction = ():JSX.Element => {
           <Input
             placeholder="0,00"
             value={value}
-            onChange={(e) => setValue(formatCurrency(e.target.value))}
+            onChange={(e) => setValue(e.target.value)}
             error={!!errors?.value}
             className="w-full"
             type="number"

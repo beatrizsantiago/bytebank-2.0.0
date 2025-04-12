@@ -6,7 +6,7 @@ import { Input, Select, Button } from 'money-flow';
 import { updateTransaction } from '@usecases/transaction/updateTransaction';
 import { transactionApi } from '@infrastructure/api/transactionApi';
 import { KindType, TransactionOptionType, TransactionType } from '@generalTypes/transaction';
-import { currencyToFloat, floatToCurrency, formatCurrency } from '@utils/currencyFormats';
+import { currencyToFloat } from '@utils/currencyFormats';
 import { Errors } from '@generalTypes/global';
 import { TRANSACTION_LABELS, TRANSACTION_OPTIONS } from '@utils/transactionOptions';
 import dynamic from 'next/dynamic';
@@ -28,7 +28,7 @@ const EditTransactionModal = ({ onClose, transaction }:Props) => {
     label: TRANSACTION_LABELS[transaction.kind],
     value: transaction.kind,
   })
-  const [value, setValue] = useState(floatToCurrency(transaction.value));
+  const [value, setValue] = useState(transaction.value.toString());
   const [errors, setErrors] = useState<Errors>(null)
 
   const onEditClick = async () => {
@@ -109,7 +109,7 @@ const EditTransactionModal = ({ onClose, transaction }:Props) => {
             <Input
               placeholder="0,00"
               value={value}
-              onChange={(e) => setValue(formatCurrency(e.target.value))}
+              onChange={(e) => setValue(e.target.value)}
               error={!!errors?.value}
               className="w-full"
               type="number"
