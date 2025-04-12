@@ -6,12 +6,15 @@ import { formatDate } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { getDashboardData } from '@usecases/dashboard/getDashboardData';
 import { dashboardApi } from '@infrastructure/api/dashboardApi';
+import { localStorageService } from '@infrastructure/services/localStorage';
 import { money } from '@utils/formats';
 import Image from 'next/image';
 import useSWR from 'swr';
 
 const Jumbotron = () => {
   const { data } = useSWR('dashboard', () => getDashboardData(dashboardApi));
+
+  const userInfo = localStorageService.getUserInfoFromToken();
 
   const [showBalance, setShowBalance] = useState(false)
 
@@ -54,7 +57,7 @@ const Jumbotron = () => {
             <h1 className="font-semibold text-xl leading-6">
               Olá,
               {' '}
-              teste
+              {userInfo.user_name}
               {' '}
               :)
             </h1>

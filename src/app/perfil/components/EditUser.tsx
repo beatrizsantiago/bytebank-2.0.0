@@ -5,9 +5,12 @@ import { toast } from 'react-toastify';
 import { Input, Button } from 'money-flow';
 import { update } from '@usecases/user/updateProfile';
 import { userApi } from '@infrastructure/api/userApi';
+import { localStorageService } from '@infrastructure/services/localStorage';
 
 const EditUser = () => {
-  const [name, setName] = useState('');
+  const userInfo = localStorageService.getUserInfoFromToken();
+  
+  const [name, setName] = useState(userInfo.user_name || '');
   const [password, setPassword] = useState('');
 
   const onSaveClick = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,6 +44,7 @@ const EditUser = () => {
           <Input
             placeholder="Digite seu e-mail"
             type="email"
+            defaultValue={userInfo.email}
             required
             disabled
           />
