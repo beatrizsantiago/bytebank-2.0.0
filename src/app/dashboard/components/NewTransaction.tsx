@@ -3,48 +3,65 @@ import { Input, Select, Button } from 'money-flow';
 import { toast } from 'react-toastify';
 import { addTransaction } from '@usecases/transaction/addTransaction';
 import { transactionApi } from '@infrastructure/api/transactionApi';
-import { KindType } from '@generalTypes/transaction';
+import { KindType, TransactionOptionType } from '@generalTypes/transaction';
 import { Errors } from '@generalTypes/global';
+import { currencyToFloat, formatCurrency } from '@utils/currencyFormats';
+import { TRANSACTION_OPTIONS } from '@utils/transactionOptions';
 import Image from 'next/image';
 import ErrorLabel from '@components/ErrorLabel';
 
-type OptionType = {
-  label: string;
-  value: string;
-};
+import { useDashboardContext } from '../context';
 
 const NewTransaction = ():JSX.Element => {
-  const [kind, setKind] = useState<OptionType | null>(null);
+  const { state, dispatch } = useDashboardContext();
+
+  const [selectedKind, setSelectedKind] = useState<TransactionOptionType | null>(null);
   const [value, setValue] = useState('');
   const [errors, setErrors] = useState<Errors>(null)
 
   const onAddTransactionClick = async () => {
-    const floatValue = value ? parseFloat(value.replace(',', '.')) : 0;
-
-    if (!kind) {
+    if (!selectedKind) {
       setErrors({ kind: 'Selecione o tipo de transação' });
       return;
     };
+    
+    const kind = selectedKind.value as KindType;
+    const absValue = Math.abs(currencyToFloat(value));
 
-    if (floatValue <= 0) {
+    if (absValue === 0) {
       setErrors({ value: 'O valor da transação deve ser maior que zero' });
       return;
     };
 
     setErrors(null);
 
+    if (absValue > state.balance && kind !== 'DEPOSIT') {
+      toast.error('Saldo insuficiente para realizar essa transação!');
+      return;
+    };
+
+    const formattedValue = absValue * (kind === 'DEPOSIT' ? 1 : -1);
+
     try {
       await addTransaction(
         {
-          kind: kind.value as KindType,
-          value: floatValue
+          kind,
+          value: formattedValue
         },
         transactionApi,
       );
 
-      window.location.reload();
+      dispatch({
+        type: 'ADD_TRANSACTION',
+        transaction: {
+          kind,
+          value: formattedValue,
+          _id: '',
+          date: '',
+        },
+      });
 
-      setKind(null);
+      setSelectedKind(null);
       setValue('');
     } catch {
       toast.error('Erro ao realizar transação');
@@ -85,26 +102,9 @@ const NewTransaction = ():JSX.Element => {
         <div className="min-w-[280px] md:min-w-[350px] mb-6">
           <Select
             placeholder="Selecione o tipo de transação"
-            options={[
-              {
-                label: 'Câmbio de Moeda',
-                value: 'CURRENCY_EXCHANGE',
-              },
-              {
-                label: 'DOC/TED',
-                value: 'DOC_TED',
-              },
-              {
-                label: 'Empréstimo e Financiamento',
-                value: 'LEASING',
-              },
-              {
-                label: 'Depósito',
-                value: 'DEPOSIT',
-              },
-            ]}
-            selected={kind}
-            onChange={(opt) => setKind(opt)}
+            options={TRANSACTION_OPTIONS}
+            selected={selectedKind}
+            onChange={(opt) => setSelectedKind(opt)}
           />
           {errors?.kind && (
             <ErrorLabel error={errors.kind} />
@@ -118,7 +118,7 @@ const NewTransaction = ():JSX.Element => {
           <Input
             placeholder="0,00"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setValue(formatCurrency(e.target.value))}
             error={!!errors?.value}
             className="w-full"
             type="number"
