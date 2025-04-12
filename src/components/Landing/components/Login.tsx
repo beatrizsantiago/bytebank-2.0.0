@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Button } from 'money-flow';
 import { useRouter } from 'next/navigation';
-import { AuthenticationService } from '@services/authentication';
+import { login } from '@usecases/auth/login';
+import { authApi } from '@infrastructure/api/authApi';
 import Image from 'next/image';
-import LocalStorageService from '@services/localStorage';
 import Modal from '@components/Modal';
 
 type Props = {
@@ -25,21 +25,13 @@ const Login = ({ onClose }:Props) => {
 
     setLoading(true);
 
-    const authService = new AuthenticationService();
-    const localStorageService = new LocalStorageService();
-
     try {
-      const token = await authService.login({ email, password });
-      localStorageService.setToken(token);
+      await login({ email, password }, authApi);
       router.push('/dashboard');
       
-    } catch (error) {
+    } catch {
       setLoading(false);
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error('Ocorreu um erro ao fazer login! Tente novamente mais tarde.');
-      }
+      toast.error('Ocorreu um erro ao fazer login! Tente novamente mais tarde.');
     }
   };
 

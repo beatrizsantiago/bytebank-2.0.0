@@ -4,23 +4,18 @@ import { useState } from 'react';
 import { EyeFilled, EyeInvisibleFilled, LoadingOutlined } from '@ant-design/icons';
 import { formatDate } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { DashboardService } from '@services/dashboard';
+import { getDashboardData } from '@usecases/dashboard/getDashboardData';
+import { dashboardApi } from '@infrastructure/api/dashboardApi';
 import { money } from '@utils/formats';
 import Image from 'next/image';
 import useSWR from 'swr';
-import LocalStorageService from '@services/localStorage';
 
 const Jumbotron = () => {
-  const dashboardService = new DashboardService();
-  const localStorageService = new LocalStorageService();
-
-  const { data } = useSWR('dashboard', () => dashboardService.getData());
+  const { data } = useSWR('dashboard', () => getDashboardData(dashboardApi));
 
   const [showBalance, setShowBalance] = useState(false)
 
-  const today = new Date();
-
-  const userInfo = localStorageService.getUserInfoFromToken();
+  const today = new Date()
 
   return (
     <div className="w-full h-[655px] bg-primary-main rounded-lg p-8 flex flex-col text-white sm:flex-row sm:h-[400px] relative">
@@ -59,7 +54,7 @@ const Jumbotron = () => {
             <h1 className="font-semibold text-xl leading-6">
               Olá,
               {' '}
-              {userInfo.user_name.split(' ')[0]}
+              teste
               {' '}
               :)
             </h1>

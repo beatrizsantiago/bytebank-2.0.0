@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Button } from 'money-flow';
 import { useRouter } from 'next/navigation';
-import { AuthenticationService, UserData } from '@services/authentication';
+import { register } from '@usecases/auth/register';
+import { authApi } from '@infrastructure/api/authApi';
 import Image from 'next/image';
-import LocalStorageService from '@services/localStorage';
 import Modal from '@components/Modal';
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 const SignUp = ({ onClose }:Props) => {
   const router = useRouter();
 
-  const [fullName, setFullName] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,21 +26,13 @@ const SignUp = ({ onClose }:Props) => {
 
     setLoading(true);
 
-    const authService = new AuthenticationService();
-    const localStorageService = new LocalStorageService();
-
     try {
-      const token = await authService.register(new UserData(email, password, fullName));
-      localStorageService.setToken(token);
+      await register({ email, password, name }, authApi);
       router.push('/dashboard');
       
-    } catch (error) {
+    } catch {
       setLoading(false);
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error('Ocorreu um erro ao criar conta! Tente novamente mais tarde.');
-      }
+      toast.error('Ocorreu um erro ao criar conta! Tente novamente mais tarde.');
     }
   };
 
@@ -63,8 +55,8 @@ const SignUp = ({ onClose }:Props) => {
             <label className="mb-1"><b>Nome</b></label>
             <Input
               placeholder="Digite seu nome completo"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               minLength={3}
               required
             />

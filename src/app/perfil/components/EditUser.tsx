@@ -3,34 +3,22 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Button } from 'money-flow';
-import { UserService, UserData } from '@services/user';
-import LocalStorageService from '@services/localStorage';
+import { update } from '@usecases/user/updateProfile';
+import { userApi } from '@infrastructure/api/userApi';
 
 const EditUser = () => {
-  const localStorageService = new LocalStorageService();
-
-  const userData = localStorageService.getUserInfoFromToken();
-
-  const [fullName, setFullName] = useState(userData.user_name);
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
   const onSaveClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const localStorageService = new LocalStorageService();
-    const userService = new UserService();
-
     try {
-      const token = await userService.update(new UserData(password, fullName));
-      localStorageService.setToken(token);
+      await update({ password, name }, userApi);
       window.location.reload();
       
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error('Ocorreu um erro ao atualizar seus dados de perfil! Tente novamente mais tarde.');
-      }
+    } catch {
+      toast.error('Ocorreu um erro ao atualizar seus dados de perfil! Tente novamente mais tarde.');
     }
   };
 
@@ -41,8 +29,8 @@ const EditUser = () => {
           <label className="mb-1"><b>Nome</b></label>
           <Input
             placeholder="Digite seu nome completo"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             minLength={3}
             required
           />
@@ -53,7 +41,6 @@ const EditUser = () => {
           <Input
             placeholder="Digite seu e-mail"
             type="email"
-            value={userData.email}
             required
             disabled
           />

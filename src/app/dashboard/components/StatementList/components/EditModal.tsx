@@ -3,17 +3,15 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Select, Button } from 'money-flow';
-import {
-  KindType,
-  TransactionData,
-  TransactionService,
-  ITransactionData,
-} from '@services/transactions';
+import { updateTransaction } from '@usecases/transaction/updateTransaction';
+import { transactionApi } from '@infrastructure/api/transactionApi';
+import { KindType, TransactionType } from '@generalTypes/transaction';
 import Modal from '@components/Modal';
+import ErrorLabel from '@components/ErrorLabel';
 
 type Props = {
   onClose: () => void;
-  transaction: ITransactionData;
+  transaction: TransactionType;
 };
 
 type OptionType = {
@@ -53,10 +51,12 @@ const EditTransactionModal = ({ onClose, transaction }:Props) => {
 
     setErrors(null);
 
-    const transactionService = new TransactionService();
-
     try {
-      await transactionService.update(transaction._id, new TransactionData(kind.value as KindType, floatValue));
+      await updateTransaction(
+        transaction._id,
+        { kind: kind.value as KindType, value: floatValue },
+        transactionApi,
+      );
       window.location.reload();
 
       setKind(null);
@@ -87,7 +87,9 @@ const EditTransactionModal = ({ onClose, transaction }:Props) => {
               selected={kind}
               onChange={(opt) => setKind(opt)}
             />
-            {errors?.kind && <p className="text-red-500 text-sm">{errors.kind}</p>}
+            {errors?.kind && (
+              <ErrorLabel error={errors.kind} />
+            )}
           </div>
 
           <label className="font-semibold text-primary-main mb-1 text-sm">
@@ -102,7 +104,9 @@ const EditTransactionModal = ({ onClose, transaction }:Props) => {
               className="w-full"
               type="number"
             />
-            {errors?.value && <p className="text-red-500 text-sm">{errors.value}</p>}
+            {errors?.value && (
+              <ErrorLabel error={errors.value} />
+            )}
           </div>
         </div>
 

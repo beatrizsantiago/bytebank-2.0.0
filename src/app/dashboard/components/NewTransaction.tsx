@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { Input, Select, Button } from 'money-flow';
 import { toast } from 'react-toastify';
-import { TransactionService, TransactionData, KindType } from '@services/transactions';
+import { addTransaction } from '@usecases/transaction/addTransaction';
+import { transactionApi } from '@infrastructure/api/transactionApi';
+import { KindType } from '@generalTypes/transaction';
+import { Errors } from '@generalTypes/global';
 import Image from 'next/image';
+import ErrorLabel from '@components/ErrorLabel';
 
 type OptionType = {
   label: string;
@@ -10,9 +14,9 @@ type OptionType = {
 };
 
 const NewTransaction = ():JSX.Element => {
-  const [kind, setKind] = useState<OptionType | null>(null)
+  const [kind, setKind] = useState<OptionType | null>(null);
   const [value, setValue] = useState('');
-  const [errors, setErrors] = useState<{ [key:string]: string } | null>(null)
+  const [errors, setErrors] = useState<Errors>(null)
 
   const onAddTransactionClick = async () => {
     const floatValue = value ? parseFloat(value.replace(',', '.')) : 0;
@@ -29,23 +33,21 @@ const NewTransaction = ():JSX.Element => {
 
     setErrors(null);
 
-    const transactionService = new TransactionService();
-
     try {
-      await transactionService.add(
-        new TransactionData(kind.value as KindType, floatValue)
+      await addTransaction(
+        {
+          kind: kind.value as KindType,
+          value: floatValue
+        },
+        transactionApi,
       );
 
       window.location.reload();
 
       setKind(null);
       setValue('');
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error('Erro ao realizar transação');
-      }
+    } catch {
+      toast.error('Erro ao realizar transação');
     };
   };
 
@@ -104,7 +106,9 @@ const NewTransaction = ():JSX.Element => {
             selected={kind}
             onChange={(opt) => setKind(opt)}
           />
-          {errors?.kind && <p className="text-red-500 text-sm">{errors.kind}</p>}
+          {errors?.kind && (
+            <ErrorLabel error={errors.kind} />
+          )}
         </div>
 
         <label className="font-semibold text-primary-light mb-1">
@@ -118,8 +122,11 @@ const NewTransaction = ():JSX.Element => {
             error={!!errors?.value}
             className="w-full"
             type="number"
+            required
           />
-          {errors?.value && <p className="text-red-500 text-sm">{errors.value}</p>}
+          {errors?.value && (
+            <ErrorLabel error={errors.value} />
+          )}
         </div>
 
         <Button
