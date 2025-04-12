@@ -3,7 +3,8 @@ import { api } from './api';
 
 export const transactionApi: TransactionRepository = {
   async add(params) {
-    await api.post('/transacoes', params);
+    const data = await api.post('/transacoes', params);
+    return data;
   },
 
   async list(page, limit) {
