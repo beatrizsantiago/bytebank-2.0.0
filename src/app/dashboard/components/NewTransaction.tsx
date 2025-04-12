@@ -8,9 +8,11 @@ import { Errors } from '@generalTypes/global';
 import { currencyToFloat, formatCurrency } from '@utils/currencyFormats';
 import { TRANSACTION_OPTIONS } from '@utils/transactionOptions';
 import Image from 'next/image';
-import ErrorLabel from '@components/ErrorLabel';
+import dynamic from 'next/dynamic';
 
 import { useDashboardContext } from '../context';
+
+const ErrorLabel = dynamic(() => import('@components/ErrorLabel'));
 
 const NewTransaction = ():JSX.Element => {
   const { state, dispatch } = useDashboardContext();

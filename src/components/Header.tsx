@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { CloseOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { Menu } from 'money-flow';
 import { localStorageService } from '@infrastructure/services/localStorage';
-import NavigationMenu from '@components/NavigationMenu';
+import dynamic from 'next/dynamic';
 
+const NavigationMenu = dynamic(() => import('@components/NavigationMenu'));
 
 const Header = () => {
   const router = useRouter();

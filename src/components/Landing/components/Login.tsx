@@ -6,8 +6,10 @@ import { Input, Button } from 'money-flow';
 import { useRouter } from 'next/navigation';
 import { login } from '@usecases/auth/login';
 import { authApi } from '@infrastructure/api/authApi';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import Modal from '@components/Modal';
+
+const Modal = dynamic(() => import('@components/Modal'));
 
 type Props = {
   onClose: () => void;

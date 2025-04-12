@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import Header from '@components/Header';
-import InlineMenu from '@components/InlineMenu';
-import Sidebar from '@components/Sidebar';
+import dynamic from 'next/dynamic';
 
 import EditUser from './components/EditUser';
+
+const Header = dynamic(() => import('@components/Header'));
+const InlineMenu = dynamic(() => import('@components/InlineMenu'));
+const Sidebar = dynamic(() => import('@components/Sidebar'));
 
 export default function Dashboard() {
   return (

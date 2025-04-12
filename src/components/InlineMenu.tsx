@@ -1,6 +1,8 @@
 'use client';
 
-import NavigationMenu from '@components/NavigationMenu';
+import dynamic from 'next/dynamic';
+
+const NavigationMenu = dynamic(() => import('@components/NavigationMenu'));
 
 const InlineMenu = () => (
   <div className="hidden md:flex justify-center lg:hidden w-full">

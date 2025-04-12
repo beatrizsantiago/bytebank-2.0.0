@@ -1,13 +1,15 @@
 'use client';
 
-import Header from '@components/Header';
-import InlineMenu from '@components/InlineMenu';
-import Sidebar from '@components/Sidebar';
+import dynamic from 'next/dynamic';
 
 import Jumbotron from './components/Jumbotron';
 import StatementList from './components/StatementList';
 import NewTransaction from './components/NewTransaction';
 import { DashboardProvider } from './context';
+
+const Header = dynamic(() => import('@components/Header'));
+const InlineMenu = dynamic(() => import('@components/InlineMenu'));
+const Sidebar = dynamic(() => import('@components/Sidebar'));
 
 const Dashboard = () => (
   <DashboardProvider>

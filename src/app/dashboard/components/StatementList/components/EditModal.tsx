@@ -9,10 +9,12 @@ import { KindType, TransactionOptionType, TransactionType } from '@generalTypes/
 import { currencyToFloat, floatToCurrency, formatCurrency } from '@utils/currencyFormats';
 import { Errors } from '@generalTypes/global';
 import { TRANSACTION_LABELS, TRANSACTION_OPTIONS } from '@utils/transactionOptions';
-import Modal from '@components/Modal';
-import ErrorLabel from '@components/ErrorLabel';
+import dynamic from 'next/dynamic';
 
 import { useDashboardContext } from '../../../context';
+
+const Modal = dynamic(() => import('@components/Modal'));
+const ErrorLabel = dynamic(() => import('@components/ErrorLabel'));
 
 type Props = {
   onClose: () => void;
