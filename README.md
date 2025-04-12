@@ -59,7 +59,7 @@ Abra [http://localhost:3000](http://localhost:3000) com seu navegador.
 
 ## 📁 Estrutura de Pastas e Organização do Código
 
-A estrutura de pastas foi alterada para seguir os princípios da **Clean Architecture**, promovendo maior separação de responsabilidades, reutilização de código e escalabilidade.
+A estrutura de pastas alterada para seguir os princípios da **Clean Architecture**, promovendo maior separação de responsabilidades, reutilização de código e escalabilidade.
 
 | **Antes** | **Depois** |
 |-----------|------------|
@@ -75,7 +75,7 @@ A estrutura de pastas foi alterada para seguir os princípios da **Clean Archite
 
 ## ⚙️ Gerenciamento de Estado
 
-Na página **dashboard**, foi implementado o gerenciamento de estado global utilizando **Context API** junto com **useReducer()**. Isso faz com que centralize a lógica de estado da página dashboard e permite o código ficar mais escalável e de fácil integração com outras ferramentas de gerenciamento de estado, caso necessário (como o Redux).
+Na página **dashboard**, está implementado o gerenciamento de estado global utilizando **Context API** junto com **useReducer()**. Isso faz com que centralize a lógica de estado da página dashboard e permite o código ficar mais escalável e de fácil integração com outras ferramentas de gerenciamento de estado, caso necessário (como o Redux).
 
 ## 🚀 Performance
 
