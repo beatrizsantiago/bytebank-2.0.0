@@ -2,23 +2,21 @@
 
 import { useState } from 'react';
 import { EyeFilled, EyeInvisibleFilled, LoadingOutlined } from '@ant-design/icons';
-import { formatDate } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import { getDashboardData } from '@usecases/dashboard/getDashboardData';
-import { dashboardApi } from '@infrastructure/api/dashboardApi';
 import { localStorageService } from '@infrastructure/services/localStorage';
-import { money } from '@utils/formats';
+import { money } from '@utils/currencyFormats';
 import Image from 'next/image';
-import useSWR from 'swr';
+import formatDateWithLocale from '@utils/formatDate';
+
+import { useDashboardContext } from '../context';
+
+const TODAY = new Date();
 
 const Jumbotron = () => {
-  const { data } = useSWR('dashboard', () => getDashboardData(dashboardApi));
-
   const userInfo = localStorageService.getUserInfoFromToken();
 
+  const { state } = useDashboardContext();
+  
   const [showBalance, setShowBalance] = useState(false)
-
-  const today = new Date()
 
   return (
     <div className="w-full h-[655px] bg-primary-main rounded-lg p-8 flex flex-col text-white sm:flex-row sm:h-[400px] relative">
@@ -46,7 +44,7 @@ const Jumbotron = () => {
         className="absolute left-8 bottom-8 z-0"
       />
 
-      {!data ? (
+      {state.loading ? (
         <div className="w-full flex flex-col items-center justify-center">
           <LoadingOutlined className="text-xl" />
           <p className="text-sm">Carregando...</p>
@@ -62,7 +60,7 @@ const Jumbotron = () => {
               :)
             </h1>
             <p className="text-sm mt-6">
-              {formatDate(today, 'EEEE, dd/MM/yyyy', { locale: ptBR })}
+              {formatDateWithLocale(TODAY, 'EEEE, dd/MM/yyyy')}
             </p>
           </div>
 
@@ -83,7 +81,7 @@ const Jumbotron = () => {
                 Conta Corrente
               </p>
               <p className="text-3xl">
-                {showBalance ? money(data.totalValue) : 'R$ ********'}
+                {showBalance ? money(state.balance) : 'R$ ********'}
               </p>
             </div>
           </div>
