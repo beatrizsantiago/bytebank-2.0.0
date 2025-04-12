@@ -4,7 +4,7 @@
 
 <h4>Frontend do Tech Challenge da Pós Tech FIAP</h4>
 
-<b>Versão:</b> 2.0.0 [(ver atualizações)](#atualizacoes)
+<b>Versão:</b> 2.0.0 [(ver atualizações)](#atualizações)
 
 ### 📌 Stack de Desenvolvimento
 
