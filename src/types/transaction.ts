@@ -16,3 +16,8 @@ export type TransactionType = {
   value: number;
   date: string;
 };
+
+export type TransactionOptionType = {
+  label: string;
+  value: string;
+};
