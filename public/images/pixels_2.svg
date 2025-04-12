@@ -1,9 +1,1 @@
-<svg width="178" height="180" viewBox="0 0 178 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="132.465" width="45" height="45" transform="rotate(90 132.465 0)" fill="#D9D9D9"/>
-<rect x="132.465" y="45" width="45" height="45" transform="rotate(90 132.465 45)" fill="#D9D9D9" fill-opacity="0.5"/>
-<rect x="87.4651" y="45" width="45" height="45" transform="rotate(90 87.4651 45)" fill="#DEE9EA" fill-opacity="0.9"/>
-<rect x="132.465" y="90.0001" width="45" height="45" transform="rotate(90 132.465 90.0001)" fill="#DEE9EA" fill-opacity="0.9"/>
-<rect x="132.465" y="135" width="45" height="45" transform="rotate(90 132.465 135)" fill="#D9D9D9" fill-opacity="0.5"/>
-<rect x="177.465" y="135" width="45" height="45" transform="rotate(90 177.465 135)" fill="#DEE9EA" fill-opacity="0.9"/>
-<rect x="45" width="45" height="45" transform="rotate(90 45 0)" fill="#DEE9EA" fill-opacity="0.9"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="178" height="180" fill="none"><path fill="#D9D9D9" d="M132.465 0v45h-45V0z"/><path fill="#D9D9D9" fill-opacity=".5" d="M132.465 45v45h-45V45z"/><path fill="#DEE9EA" fill-opacity=".9" d="M87.465 45v45h-45V45zM132.465 90v45h-45V90z"/><path fill="#D9D9D9" fill-opacity=".5" d="M132.465 135v45h-45v-45z"/><path fill="#DEE9EA" fill-opacity=".9" d="M177.465 135v45h-45v-45zM45 0v45H0V0z"/></svg>
