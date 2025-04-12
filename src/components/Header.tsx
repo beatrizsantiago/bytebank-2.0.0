@@ -4,14 +4,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CloseOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { Menu } from 'money-flow';
-import LocalStorageService from '@services/localStorage';
+import { localStorageService } from '@infrastructure/services/localStorage';
 import NavigationMenu from '@components/NavigationMenu';
 
 
 const Header = () => {
   const router = useRouter();
-
-  const localStorageService = new LocalStorageService();
 
   const userInfo = localStorageService.getUserInfoFromToken();
 
