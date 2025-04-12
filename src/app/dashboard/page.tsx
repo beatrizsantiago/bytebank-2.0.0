@@ -7,9 +7,10 @@ import Sidebar from '@components/Sidebar';
 import Jumbotron from './components/Jumbotron';
 import StatementList from './components/StatementList';
 import NewTransaction from './components/NewTransaction';
+import { DashboardProvider } from './context';
 
-export default function Dashboard() {
-  return (
+const Dashboard = () => (
+  <DashboardProvider>
     <div>
       <Header />
 
@@ -27,5 +28,7 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-  );
-};
+  </DashboardProvider>
+);
+
+export default Dashboard;
