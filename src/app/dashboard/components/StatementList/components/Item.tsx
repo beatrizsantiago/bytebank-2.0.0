@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import { removeTransaction } from '@usecases/transaction/removeTransaction';
 import { transactionApi } from '@infrastructure/api/transactionApi';
 import { TransactionType } from '@generalTypes/transaction';
+
+import { useDashboardContext } from '../../../context';
 import EditModal from './EditModal';
 
 type Props = {
@@ -13,18 +15,19 @@ type Props = {
 };
 
 const Item = ({ transaction }:Props) => {
+  const { dispatch } = useDashboardContext();
+
   const [showEditModal, setShowEditModal] = useState(false);
 
   const onDeleteClick = async () => {
     try {
       await removeTransaction(transaction._id, transactionApi);
-      window.location.reload();
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error('Erro ao deletar a transação');
-      }
+      dispatch({
+        type: 'DELETE_TRANSACTION',
+        id: transaction._id,
+      });
+    } catch {
+      toast.error('Erro ao deletar a transação');
     };
   };
 

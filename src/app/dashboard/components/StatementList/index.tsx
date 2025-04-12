@@ -1,14 +1,12 @@
 'use client';
 
 import { LoadingOutlined } from '@ant-design/icons';
-import { listTransactions } from '@usecases/transaction/listTransactions';
-import { transactionApi } from '@infrastructure/api/transactionApi';
-import useSWR from 'swr';
 
+import { useDashboardContext } from '../../context';
 import Item from './components/Item';
 
 const StatementList = () => {
-  const { data: response } = useSWR('transaction', () => listTransactions(transactionApi));
+  const { state } = useDashboardContext();
 
   return (
     <div className="flex flex-col items-center w-full min-h-[calc(100vh-144px)] max-h-[902px] bg-white rounded-lg lg:w-[285px]">
@@ -16,13 +14,13 @@ const StatementList = () => {
         Extrato
       </p>
 
-      {!response ? (
+      {state.loading ? (
         <LoadingOutlined className="text-xl m-6" />
       ) : (
         <>
-          {response.data.map((transaction, index) => (
+          {state.transactions.map((transaction) => (
             <Item
-              key={index}
+              key={transaction._id}
               transaction={transaction}
             />
           ))}
