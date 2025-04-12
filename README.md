@@ -4,7 +4,7 @@
 
 <h4>Frontend do Tech Challenge da Pós Tech FIAP</h4>
 
-<b>Versão:</b> 2.0.0 [(ver atualizações)](#updates)
+<b>Versão:</b> 2.0.0 [(ver atualizações)](#atualizacoes)
 
 ### 📌 Stack de Desenvolvimento
 
@@ -52,5 +52,4 @@ npm run dev
 
 Abra [http://localhost:3000](http://localhost:3000) com seu navegador.
 
-#updates
 ### Atualizações
