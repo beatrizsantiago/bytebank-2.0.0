@@ -1,16 +1,9 @@
 import {
-  AddTransactionParams, KindType, UpdateTransactionParams,
+  AddTransactionParams, TransactionType, UpdateTransactionParams,
 } from '@generalTypes/transaction';
 
-type Transaction = {
-  _id: string;
-  kind: KindType;
-  value: number;
-  date: string;
-};
-
 type TransactionList = {
-  data: Transaction[];
+  data: TransactionType[];
   totalPages: number;
   currentPage: number;
 };

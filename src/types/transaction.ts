@@ -9,3 +9,10 @@ export type UpdateTransactionParams = {
   kind: KindType;
   value: number;
 };
+
+export type TransactionType = {
+  _id: string;
+  kind: KindType;
+  value: number;
+  date: string;
+};
