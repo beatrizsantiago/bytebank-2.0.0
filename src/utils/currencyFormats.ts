@@ -5,7 +5,7 @@ export const money = (value?:number | null):string => (value
 export const currencyToFloat = (value:string) => {
   if (!value) return 0;
   
-  const numericValue = value.replace(/[R$\s.]/g, '').replace(',', '.');
-  
+  const numericValue = value.replace(',', '.');
+
   return parseFloat(numericValue);
 };
