@@ -80,8 +80,9 @@ Na página **dashboard**, está implementado o gerenciamento de estado global ut
 ## 🚀 Performance
 
 - **Compressão de imagens**: todas as imagens utilizadas foram comprimidas, reduzindo o peso total da página.
-- **Carregamento inteligente (Lazy Loading)**: o componente `<Image />` do Next.js aplica lazy loading por padrão, carregando as imagens apenas quando entram na viewport.  
+- **Carregamento inteligente (Lazy Loading) de imagens**: o componente `<Image />` do Next.js aplica lazy loading por padrão, carregando as imagens apenas quando entram na viewport.  
   🔗 [Saiba mais](https://nextjs.org/docs/pages/building-your-application/optimizing/images)
 - **Carregamento Dinâmico de Componentes**: uso do `next/dynamic` para realizar o lazy loading de componentes, carregando-os apenas quando necessário. Isso reduz o tamanho inicial do bundle enviado ao cliente e melhora a performance geral.  
   🔗 [Saiba mais](https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading)
 - **Cache**: No arquivo `next.config.js`, há configurações de cabeçalhos HTTP personalizados usando a função `headers()` para os arquivos que estão na pasta `/public` ou que são gerados estaticamente pelo Next.js.
+- **Otimização de Requisições com SWR**: uso da biblioteca SWR (Stale While Revalidate) para otimizar o consumo de dados na aplicação Next.js, aproveitando o cache inteligente e garantindo carregamentos rápidos e atualizações em segundo plano.
