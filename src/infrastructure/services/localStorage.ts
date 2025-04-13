@@ -1,3 +1,5 @@
+'use client';
+
 import { decode } from 'js-base64';
 
 type UserData = {
@@ -15,7 +17,9 @@ class LocalStorage {
     localStorage.removeItem('token');
   };
 
-  getUserInfoFromToken():UserData {
+  getUserInfoFromToken():UserData | null {
+    if (typeof window === 'undefined') return null;
+
     const token = localStorage.getItem('token') as string;
 
     const data = token.split('.')[1];

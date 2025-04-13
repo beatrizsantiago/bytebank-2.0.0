@@ -7,7 +7,7 @@ import StatementList from './components/StatementList';
 import NewTransaction from './components/NewTransaction';
 import { DashboardProvider } from './context';
 
-const Header = dynamic(() => import('@components/Header'));
+const Header = dynamic(() => import('@components/Header'), { ssr: false });
 const InlineMenu = dynamic(() => import('@components/InlineMenu'));
 const Sidebar = dynamic(() => import('@components/Sidebar'));
 

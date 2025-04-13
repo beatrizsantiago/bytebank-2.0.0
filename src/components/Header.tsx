@@ -50,7 +50,7 @@ const Header = () => {
           </div>
 
           <div className="relative flex items-center">
-            <p className="text-white font-semibold text-sm mr-4 md:mr-8">{userInfo.user_name}</p>
+            <p className="text-white font-semibold text-sm mr-4 md:mr-8">{userInfo?.user_name}</p>
             <div className="w-10 h-10 border-2 border-secondary-main rounded-3xl flex items-center justify-center">
               <UserOutlined className="text-secondary-main text-2xl font-light cursor-pointer" onClick={toggleUserMenu} />
 

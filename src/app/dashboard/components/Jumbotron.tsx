@@ -55,7 +55,7 @@ const Jumbotron = () => {
             <h1 className="font-semibold text-xl leading-6">
               Olá,
               {' '}
-              {userInfo.user_name}
+              {userInfo?.user_name}
               {' '}
               :)
             </h1>

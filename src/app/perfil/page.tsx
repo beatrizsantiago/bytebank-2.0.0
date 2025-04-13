@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 import EditUser from './components/EditUser';
 
-const Header = dynamic(() => import('@components/Header'));
+const Header = dynamic(() => import('@components/Header'), { ssr: false });
 const InlineMenu = dynamic(() => import('@components/InlineMenu'));
 const Sidebar = dynamic(() => import('@components/Sidebar'));
 

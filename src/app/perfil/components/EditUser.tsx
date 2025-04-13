@@ -10,7 +10,7 @@ import { localStorageService } from '@infrastructure/services/localStorage';
 const EditUser = () => {
   const userInfo = localStorageService.getUserInfoFromToken();
   
-  const [name, setName] = useState(userInfo.user_name || '');
+  const [name, setName] = useState(userInfo?.user_name || '');
   const [password, setPassword] = useState('');
 
   const onSaveClick = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,7 +44,7 @@ const EditUser = () => {
           <Input
             placeholder="Digite seu e-mail"
             type="email"
-            defaultValue={userInfo.email}
+            value={userInfo?.email}
             required
             disabled
           />
