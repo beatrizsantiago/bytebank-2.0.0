@@ -84,3 +84,4 @@ Na página **dashboard**, está implementado o gerenciamento de estado global ut
   🔗 [Saiba mais](https://nextjs.org/docs/pages/building-your-application/optimizing/images)
 - **Carregamento Dinâmico de Componentes**: uso do `next/dynamic` para realizar o lazy loading de componentes, carregando-os apenas quando necessário. Isso reduz o tamanho inicial do bundle enviado ao cliente e melhora a performance geral.  
   🔗 [Saiba mais](https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading)
+- **Cache**: No arquivo `next.config.js`, há configurações de cabeçalhos HTTP personalizados usando a função `headers()` para os arquivos que estão na pasta `/public` ou que são gerados estaticamente pelo Next.js.
