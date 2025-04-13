@@ -27,7 +27,13 @@ const reducer = (state: State, action: ActionType):State => {
             ? action.transaction
             : transaction
         ),
-        balance: state.balance + action.transaction.value,
+        balance: state.transactions.reduce((acc, transaction) => {
+          if (transaction._id === action.transaction._id) {
+            return acc + action.transaction.value;
+          }
+          return acc + transaction.value;
+        }
+        , 0),
       };
     case 'DELETE_TRANSACTION':
       const transactionToDelete = state.transactions.find((transaction) => transaction._id === action.id);
