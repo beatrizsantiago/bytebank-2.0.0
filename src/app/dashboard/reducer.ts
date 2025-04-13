@@ -16,16 +16,17 @@ const reducer = (state: State, action: ActionType):State => {
     case 'ADD_TRANSACTION':
       return {
         ...state,
-        transactions: [...state.transactions, action.transaction],
+        transactions: [action.transaction, ...state.transactions],
         balance: state.balance + action.transaction.value,
       };
     case 'UPDATE_TRANSACTION':
       return {
         ...state,
-        transactions: [
-          ...state.transactions.filter((transaction) => transaction._id !== action.transaction._id),
-          action.transaction,
-        ],
+        transactions: state.transactions.map((transaction) =>
+          transaction._id === action.transaction._id
+            ? action.transaction
+            : transaction
+        ),
         balance: state.balance + action.transaction.value,
       };
     case 'DELETE_TRANSACTION':
