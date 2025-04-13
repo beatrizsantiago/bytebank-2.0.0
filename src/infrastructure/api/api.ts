@@ -6,23 +6,21 @@ type OptionsType = {
 
 class APIHandler {
   private baseUrl: string;
-  private token: string | null = null;
 
   constructor() {
     this.baseUrl = process.env.NEXT_PUBLIC_API_URL as string;
-    if (typeof window !== 'undefined') {
-      this.token = localStorage.getItem('token');
-    }
   };
 
   private async request(endpoint: string, options:OptionsType = {}) {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       ...options.headers,
     };
 
-    if (this.token) {
-      headers['Authorization'] = `Bearer ${this.token}`;
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
     }
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
