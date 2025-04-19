@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Button } from 'money-flow';
 import { useRouter } from 'next/navigation';
-import { login } from '@usecases/auth/login';
 import { authApi } from '@infrastructure/api/authApi';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import LoginUseCase from '@usecases/auth/login';
 
 const Modal = dynamic(() => import('@components/Modal'));
 
@@ -28,7 +28,8 @@ const Login = ({ onClose }:Props) => {
     setLoading(true);
 
     try {
-      await login({ email, password }, authApi);
+      const loginUseCase = new LoginUseCase(authApi);
+      await loginUseCase.execute({ email, password });
       router.push('/dashboard');
       
     } catch {

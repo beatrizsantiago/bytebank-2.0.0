@@ -2,8 +2,14 @@ import { AuthRepository } from '@domain/repositories/AuthRepository';
 import { LoginParams } from '@generalTypes/auth';
 import { localStorageService } from '@infrastructure/services/localStorage';
 
-export async function login(params: LoginParams, repository: AuthRepository) {
-  const token = await repository.login(params);
-  localStorageService.setToken(token);
-  return token;
+class LoginUseCase {
+  constructor(private repository: AuthRepository) {}
+
+  async execute(params: LoginParams) {
+    const token = await this.repository.login(params);
+    localStorageService.setToken(token);
+    return true;
+  };
 };
+
+export default LoginUseCase;

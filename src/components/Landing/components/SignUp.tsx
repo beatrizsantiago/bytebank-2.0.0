@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Button } from 'money-flow';
 import { useRouter } from 'next/navigation';
-import { register } from '@usecases/auth/register';
 import { authApi } from '@infrastructure/api/authApi';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import RegisterUseCase from '@usecases/auth/register';
 
 const Modal = dynamic(() => import('@components/Modal'));
 
@@ -29,7 +29,8 @@ const SignUp = ({ onClose }:Props) => {
     setLoading(true);
 
     try {
-      await register({ email, password, name }, authApi);
+      const registerUseCase = new RegisterUseCase(authApi);
+      await registerUseCase.execute({ email, password, name });
       router.push('/dashboard');
       
     } catch {

@@ -1,9 +1,28 @@
 import { AuthRepository } from '@domain/repositories/AuthRepository';
-import { RegisterParams } from '@generalTypes/auth';
 import { localStorageService } from '@infrastructure/services/localStorage';
+import User from '@domain/entities/User';
 
-export async function register(params: RegisterParams, repository: AuthRepository) {
-  const token = await repository.register(params);
-  localStorageService.setToken(token);
-  return token;
+type RegisterParams = {
+  name: string;
+  email: string;
+  password: string;
 };
+
+class RegisterUseCase {
+  constructor(private repository: AuthRepository) {}
+
+  async execute(params: RegisterParams) {
+    const newUser = new User(
+      '',
+      params.email,
+      params.password,
+      params.name,
+    );
+
+    const token = await this.repository.register(newUser);
+    localStorageService.setToken(token);
+    return true;
+  }
+};
+
+export default RegisterUseCase;
