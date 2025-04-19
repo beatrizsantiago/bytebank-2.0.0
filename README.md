@@ -71,7 +71,7 @@ A estrutura de pastas alterada para seguir os princípios da **Clean Architectur
 | `utils/`<br>└── formats.ts *(formatos diversos juntos)* | `src/utils/`<br>├── currencyFormats.ts *(valores monetários)*<br>├── formatDate.ts *(datas)*<br>└── transactionOptions.ts *(lista centralizada de opções de transações)* |
 | *(não existia)* | `src/domain/`<br>├── entities/<br>│ ├── Transaction.ts<br>│ └── User.ts<br>├── repositories/<br>│ ├── AuthRepository.ts<br>│ ├── DashboardRepository.ts<br>│ ├── TransactionRepository.ts<br>│ └── UserRepository.ts |
 | *(não existia)* | `src/usecases/`<br>├── auth/<br>│ ├── login.ts<br>│ └── register.ts<br>├── dashboard/<br>│ └── getDashboardData.ts<br>├── transaction/<br>│ ├── addTransaction.ts<br>│ ├── listTransactions.ts<br>│ ├── removeTransaction.ts<br>│ └── updateTransaction.ts<br>└── user/<br>  └── updateProfile.ts |
-| *(não existia)* | `src/types/`<br>├── auth.ts<br>├── global.ts<br>├── transaction.ts<br>└── user.ts<br><sub>*Para reutilização de types, evitando duplicações*</sub> |
+| *(não existia)* | `src/types/`<br>├── auth.ts<br>├── global.ts<br>├── transaction.ts<br><sub>*Para reutilização de types, evitando duplicações*</sub> |
 
 ## ⚙️ Gerenciamento de Estado
 

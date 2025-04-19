@@ -1,5 +1,5 @@
-import { UpdateUserParams } from "@generalTypes/user";
+import User from '@domain/entities/User';
 
 export interface UserRepository {
-  update(params: UpdateUserParams): Promise<string>;
+  update(params: User): Promise<string>;
 };

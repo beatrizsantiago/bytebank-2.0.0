@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Button } from 'money-flow';
-import { update } from '@usecases/user/updateProfile';
 import { userApi } from '@infrastructure/api/userApi';
 import { localStorageService } from '@infrastructure/services/localStorage';
+import UpdateProfileUseCase from '@usecases/user/updateProfile';
 
 const EditUser = () => {
   const userInfo = localStorageService.getUserInfoFromToken();
@@ -17,11 +17,14 @@ const EditUser = () => {
     e.preventDefault();
 
     try {
-      await update({ password, name }, userApi);
+      const updateProfileUseCase = new UpdateProfileUseCase(userApi);
+
+      await updateProfileUseCase.execute({ password, name });
       window.location.reload();
       
-    } catch {
+    } catch (error) {
       toast.error('Ocorreu um erro ao atualizar seus dados de perfil! Tente novamente mais tarde.');
+      toast.error((error as Error).message);
     }
   };
 
