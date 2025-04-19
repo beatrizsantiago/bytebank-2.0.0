@@ -3,15 +3,15 @@
 import { useState } from 'react';
 import { StatementItem } from 'money-flow';
 import { toast } from 'react-toastify';
-import { removeTransaction } from '@usecases/transaction/removeTransaction';
 import { transactionApi } from '@infrastructure/api/transactionApi';
-import { TransactionType } from '@generalTypes/transaction';
+import RemoveTransactionUseCase from '@usecases/transaction/removeTransaction';
+import Transaction from '@domain/entities/Transaction';
 
 import { useDashboardContext } from '../../../context';
 import EditModal from './EditModal';
 
 type Props = {
-  transaction: TransactionType;
+  transaction: Transaction;
 };
 
 const Item = ({ transaction }:Props) => {
@@ -21,7 +21,10 @@ const Item = ({ transaction }:Props) => {
 
   const onDeleteClick = async () => {
     try {
-      await removeTransaction(transaction._id, transactionApi);
+      const removeTransactionUseCase = new RemoveTransactionUseCase(transactionApi);
+
+      await removeTransactionUseCase.execute(transaction._id);
+
       dispatch({
         type: 'DELETE_TRANSACTION',
         id: transaction._id,

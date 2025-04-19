@@ -2,11 +2,11 @@ import {
   useContext, createContext, useMemo,
   useReducer, useEffect,
 } from 'react';
-import { getDashboardData } from '@usecases/dashboard/getDashboardData';
 import { dashboardApi } from '@infrastructure/api/dashboardApi';
-import { listTransactions } from '@usecases/transaction/listTransactions';
 import { transactionApi } from '@infrastructure/api/transactionApi';
 import { toast } from 'react-toastify';
+import ListTransactionUseCase from '@usecases/transaction/listTransactions';
+import GetDashboardDataUseCase from '@usecases/dashboard/getDashboardData';
 import useSWR from 'swr';
 
 import {
@@ -22,8 +22,8 @@ const initialState:State = {
   loading: true,
 };
 
-const fetchDashboard = () => getDashboardData(dashboardApi);
-const fetchTransactions = () => listTransactions(transactionApi);
+const fetchDashboard = () => new GetDashboardDataUseCase(dashboardApi).execute();
+const fetchTransactions = () => new ListTransactionUseCase(transactionApi).execute();
 
 const Context = createContext({} as DashboardProviderType);
 const useDashboardContext = ():DashboardProviderType => useContext(Context);
@@ -33,7 +33,6 @@ const DashboardProvider = ({ children }: DashboardProviderProps):JSX.Element => 
 
   const { data: dashboardData, error: dashboardError } = useSWR('dashboard', fetchDashboard);
   const { data: transactionsData, error: transactionsError } = useSWR('transactions', fetchTransactions);
-
 
   useEffect(() => {
     if (dashboardData) {

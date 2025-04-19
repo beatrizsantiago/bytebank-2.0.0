@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Input, Select, Button } from 'money-flow';
-import { updateTransaction } from '@usecases/transaction/updateTransaction';
 import { transactionApi } from '@infrastructure/api/transactionApi';
-import { KindType, TransactionOptionType, TransactionType } from '@generalTypes/transaction';
+import { KindType, TransactionOptionType } from '@generalTypes/transaction';
 import { currencyToFloat } from '@utils/currencyFormats';
 import { Errors } from '@generalTypes/global';
 import { TRANSACTION_LABELS, TRANSACTION_OPTIONS } from '@utils/transactionOptions';
+import UpdateTransactionUseCase from '@usecases/transaction/updateTransaction';
+import Transaction from '@domain/entities/Transaction';
 import dynamic from 'next/dynamic';
 
 import { useDashboardContext } from '../../../context';
@@ -18,11 +19,11 @@ const ErrorLabel = dynamic(() => import('@components/ErrorLabel'));
 
 type Props = {
   onClose: () => void;
-  transaction: TransactionType;
+  transaction: Transaction;
 };
 
 const EditTransactionModal = ({ onClose, transaction }:Props) => {
-  const { state, dispatch } = useDashboardContext();
+  const { dispatch } = useDashboardContext();
 
   const [selectedKind, setSelectedKind] = useState<TransactionOptionType | null>({
     label: TRANSACTION_LABELS[transaction.kind],
@@ -47,38 +48,29 @@ const EditTransactionModal = ({ onClose, transaction }:Props) => {
 
     setErrors(null);
 
-    if (absValue > state.balance && kind !== 'DEPOSIT') {
-      toast.error('Saldo insuficiente para realizar essa transação!');
-      return;
-    };
-
-    const formattedValue = absValue * (kind === 'DEPOSIT' ? 1 : -1);
-
     try {
-      await updateTransaction(
-        transaction._id,
-        {
-          kind,
-          value: formattedValue,
-        },
-        transactionApi,
-      );
+      const updateTransactionUseCase = new UpdateTransactionUseCase(transactionApi);
+
+      const response = await updateTransactionUseCase.execute({
+        id: transaction._id,
+        kind,
+        value: absValue,
+      });
+
+      console.log({ response });
+      
 
       dispatch({
         type: 'UPDATE_TRANSACTION',
-        transaction: {
-          ...transaction,
-          kind,
-          value: formattedValue,
-        },
+        transaction: response,
       });
 
       setSelectedKind(null);
       setValue('');
 
       onClose();
-    } catch {
-      toast.error('Erro ao realizar transação');
+    } catch (error) {
+      toast.error((error as Error).message);
     };
   };
 

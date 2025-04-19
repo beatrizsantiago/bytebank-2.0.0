@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Input, Select, Button } from 'money-flow';
 import { toast } from 'react-toastify';
-import { addTransaction } from '@usecases/transaction/addTransaction';
 import { transactionApi } from '@infrastructure/api/transactionApi';
 import { KindType, TransactionOptionType } from '@generalTypes/transaction';
 import { Errors } from '@generalTypes/global';
 import { currencyToFloat } from '@utils/currencyFormats';
 import { TRANSACTION_OPTIONS } from '@utils/transactionOptions';
+import AddTransactionUseCase from '@usecases/transaction/addTransaction';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
@@ -15,7 +15,7 @@ import { useDashboardContext } from '../context';
 const ErrorLabel = dynamic(() => import('@components/ErrorLabel'));
 
 const NewTransaction = ():JSX.Element => {
-  const { state, dispatch } = useDashboardContext();
+  const { dispatch } = useDashboardContext();
 
   const [selectedKind, setSelectedKind] = useState<TransactionOptionType | null>(null);
   const [value, setValue] = useState('');
@@ -37,36 +37,23 @@ const NewTransaction = ():JSX.Element => {
 
     setErrors(null);
 
-    if (absValue > state.balance && kind !== 'DEPOSIT') {
-      toast.error('Saldo insuficiente para realizar essa transação!');
-      return;
-    };
-
-    const formattedValue = absValue * (kind === 'DEPOSIT' ? 1 : -1);
-
     try {
-      const response = await addTransaction(
-        {
-          kind,
-          value: formattedValue
-        },
-        transactionApi,
-      );
+      const addTransactionUseCase = new AddTransactionUseCase(transactionApi);
+
+      const response = await addTransactionUseCase.execute({
+        kind,
+        value: absValue,
+      });
 
       dispatch({
         type: 'ADD_TRANSACTION',
-        transaction: {
-          kind,
-          value: formattedValue,
-          _id: response._id,
-          date: response.date,
-        },
+        transaction: response,
       });
 
       setSelectedKind(null);
       setValue('');
-    } catch {
-      toast.error('Erro ao realizar transação');
+    } catch (error) {
+      toast.error((error as Error).message);
     };
   };
 
