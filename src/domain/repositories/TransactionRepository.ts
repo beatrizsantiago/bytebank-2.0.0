@@ -1,16 +1,9 @@
-import {
-  AddTransactionParams, TransactionType, UpdateTransactionParams,
-} from '@generalTypes/transaction';
-
-type TransactionList = {
-  data: TransactionType[];
-  totalPages: number;
-  currentPage: number;
-};
+import Transaction from '@domain/entities/Transaction';
+import { TransactionList } from '@generalTypes/transaction';
 
 export interface TransactionRepository {
-  add(data: AddTransactionParams): Promise<TransactionType>;
+  add(data: Transaction): Promise<Transaction>;
   list(page?: number, limit?: number): Promise<TransactionList>;
-  update(id: string, data: UpdateTransactionParams): Promise<void>;
+  update(data: Transaction) :Promise<Transaction>;
   delete(id: string): Promise<void>;
 };
