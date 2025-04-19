@@ -1,5 +1,11 @@
 import { TransactionRepository } from '@domain/repositories/TransactionRepository';
 
-export async function listTransactions( repository: TransactionRepository, page?: number, limit?: number) {
-  return await repository.list(page, limit);
+class ListTransactionUseCase {
+  constructor(private repository: TransactionRepository) {}
+
+  async execute(page?: number, limit?: number) {
+    return await this.repository.list(page, limit);
+  }
 };
+
+export default ListTransactionUseCase;

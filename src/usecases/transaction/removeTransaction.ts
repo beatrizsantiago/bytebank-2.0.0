@@ -1,5 +1,11 @@
 import { TransactionRepository } from '@domain/repositories/TransactionRepository';
 
-export async function removeTransaction(id: string, repository: TransactionRepository) {
-  return await repository.delete(id);
+class RemoveTransactionUseCase {
+  constructor(private repository: TransactionRepository) {}
+
+  async execute(id: string) {
+    return await this.repository.delete(id);
+  }
 };
+
+export default RemoveTransactionUseCase;
