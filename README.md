@@ -86,3 +86,12 @@ Na página **dashboard**, está implementado o gerenciamento de estado global ut
   🔗 [Saiba mais](https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading)
 - **Cache**: No arquivo `next.config.js`, há configurações de cabeçalhos HTTP personalizados usando a função `headers()` para os arquivos que estão na pasta `/public` ou que são gerados estaticamente pelo Next.js.
 - **Otimização de Requisições com SWR**: uso da biblioteca SWR (Stale While Revalidate) para otimizar o consumo de dados na aplicação Next.js, aproveitando o cache inteligente e garantindo carregamentos rápidos e atualizações em segundo plano.
+
+## 🌀 Programação Reativa
+
+Utilização da biblioteca **RxJS** para implementar programação reativa nos filtros da dashboard. Especificamente, ela é aplicada nos seguintes casos:
+
+- **Filtro por valor da transação**: escuta eventos de digitação (`input`) com debounce para evitar múltiplas requisições ou filtragens desnecessárias.
+- **Filtro por tipo da transação**: escuta mudanças (`change`) em um `<select>` e aplica o filtro em tempo real.
+
+> No projeto anterior, os filtros ainda não estavam implementados. Nesta nova versão, os filtros foram adicionados e toda a lógica de filtragem é realizada no **frontend**, pois o **backend não possui suporte a filtros via API**.
