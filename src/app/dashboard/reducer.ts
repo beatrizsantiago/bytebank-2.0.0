@@ -7,18 +7,22 @@ const reducer = (state: State, action: ActionType):State => {
         ...state,
         balance: action.balance,
       };
+      
     case 'SET_TRANSACTIONS':
       return {
         ...state,
         transactions: action.transactions,
         loading: false,
       };
+
     case 'ADD_TRANSACTION':
       return {
         ...state,
         transactions: [action.transaction, ...state.transactions],
         balance: state.balance + action.transaction.value,
+        isFiltering: false,
       };
+
     case 'UPDATE_TRANSACTION':
       return {
         ...state,
@@ -34,7 +38,9 @@ const reducer = (state: State, action: ActionType):State => {
           return acc + transaction.value;
         }
         , 0),
+        isFiltering: false,
       };
+
     case 'DELETE_TRANSACTION':
       const transactionToDelete = state.transactions.find((transaction) => transaction._id === action.id);
       if (!transactionToDelete) {
@@ -47,8 +53,22 @@ const reducer = (state: State, action: ActionType):State => {
           ...state.transactions.filter((transaction) => transaction._id !== action.id),
         ],
         balance: state.balance - transactionToDelete.value,
+        isFiltering: false,
       };
 
+    case 'SET_FILTERED_TRANSACTIONS':
+      return {
+        ...state,
+        filteredTransactions: action.transactions,
+        isFiltering: true,
+      };
+
+    case 'CLEAR_FILTERS':
+      return {
+        ...state,
+        filteredTransactions: [],
+        isFiltering: false,
+      };
 
     default:
       throw new Error('Unhandled action');

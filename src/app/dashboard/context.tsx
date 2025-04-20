@@ -20,6 +20,8 @@ const initialState:State = {
   balance: 0,
   transactions: [],
   loading: true,
+  filteredTransactions: [],
+  isFiltering: false,
 };
 
 const fetchDashboard = () => new GetDashboardDataUseCase(dashboardApi).execute();
