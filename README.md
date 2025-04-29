@@ -95,3 +95,18 @@ Utilização da biblioteca **RxJS** para implementar programação reativa nos f
 - **Filtro por tipo da transação**: escuta mudanças (`change`) em um `<select>` e aplica o filtro em tempo real.
 
 > No projeto anterior, os filtros ainda não estavam implementados. Nesta nova versão, os filtros foram adicionados e toda a lógica de filtragem é realizada no **frontend**, pois o **backend não possui suporte a filtros via API**.
+
+## 🔒 Segurança no Frontend
+
+Esta aplicação implementa boas práticas de segurança incluindo:
+
+- **Geração e Armazenamento Seguro de JWT**:  
+  Tokens de autenticação JWT são armazenados no local storage e as requisições autenticadas utilizam o token no cabeçalho `Authorization`.
+
+- **Validação de Inputs do Usuário**:  
+  Todos os dados de entrada dos usuários são validados no frontend antes de serem enviados para o backend, garantindo que apenas dados no formato esperado sejam processados. Essa validação previne ataques como envio de dados maliciosos ou exploração de campos de formulários.
+
+- **Hashing de Dados Sensíveis com SHA-256**:  
+  Informações sensíveis que precisam ser transmitidas são **convertidas em hashes SHA-256** diretamente no navegador usando a API nativa `crypto.subtle`. Isso garante que nenhum dado sensível "em texto puro" seja exposto na rede. Essa hash é validada no backend com o módulo nativo `crypto` do Node.js, garantindo a integridade e segurança das informações transmitidas.
+
+> ⚠️ **Atenção**: Embora o frontend aplique validações e proteções importantes, a segurança completa da aplicação depende também da validação no backend. O frontend reduz riscos, mas não substitui a necessidade de proteção no servidor.
