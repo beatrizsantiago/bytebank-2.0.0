@@ -1,3 +1,5 @@
+import { sha256Browser } from '@utils/sha256Browser';
+
 type OptionsType = {
   method?: string;
   body?: string;
@@ -44,10 +46,16 @@ class APIHandler {
     });
   };
 
-  post(endpoint: string, data: unknown) {
+  async post(endpoint: string, data: unknown) {
+    const body = JSON.stringify(data);
+    const hash = await sha256Browser(body);
+
     return this.request(endpoint, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body,
+      headers: {
+        'X-Content-SHA256': hash,
+      }
     });
   };
 
